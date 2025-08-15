@@ -10,6 +10,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import Layout from '../components/layout/Layout';
+import { formatShortDate } from '../utils/dateUtils';
 import { Heart, MessageCircle, ArrowLeft, Send, Trash2, Edit } from 'lucide-react';
 
 const PostDetails: React.FC = () => {
@@ -175,11 +176,7 @@ const PostDetails: React.FC = () => {
     } else if (diffInHours < 48) {
       return 'Yesterday';
     } else {
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      });
+      return formatShortDate(dateString);
     }
   };
 

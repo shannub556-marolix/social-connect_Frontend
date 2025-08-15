@@ -8,6 +8,7 @@ import Avatar from '../components/ui/Avatar';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Layout from '../components/layout/Layout';
+import { formatShortDate } from '../utils/dateUtils';
 import { ArrowLeft, Users, MapPin, Globe, Calendar, UserPlus } from 'lucide-react';
 
 const DiscoverUsers: React.FC = () => {
@@ -64,11 +65,7 @@ const DiscoverUsers: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+    return formatShortDate(dateString);
   };
 
   if (isLoading) {

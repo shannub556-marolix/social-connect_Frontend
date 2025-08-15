@@ -11,6 +11,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import Layout from '../components/layout/Layout';
+import { formatDate } from '../utils/dateUtils';
 import { 
   Edit, MapPin, Globe, Calendar, Users, FileText, Heart, MessageCircle, 
   MoreVertical, Trash2, Eye, Camera, X, UserMinus
@@ -384,18 +385,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    if (!dateString) return 'Unknown date';
-    try {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-    } catch (error) {
-      return 'Unknown date';
-    }
-  };
+
 
   if (isLoading) {
     return (

@@ -5,6 +5,7 @@ import { adminApi } from '../../api/adminApi';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
+import { formatDateTime } from '../../utils/dateUtils';
 
 interface UserManagementProps {
   className?: string;
@@ -111,13 +112,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ className = '' }) => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return formatDateTime(dateString);
   };
 
   return (

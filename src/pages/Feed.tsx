@@ -8,6 +8,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 import Layout from '../components/layout/Layout';
+import { formatRelativeTime, formatShortDate } from '../utils/dateUtils';
 import { Heart, MessageCircle, Plus, RefreshCw } from 'lucide-react';
 
 const Feed: React.FC = () => {
@@ -104,10 +105,7 @@ const Feed: React.FC = () => {
     } else if (diffInHours < 48) {
       return 'Yesterday';
     } else {
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric'
-      });
+      return formatShortDate(dateString);
     }
   };
 
