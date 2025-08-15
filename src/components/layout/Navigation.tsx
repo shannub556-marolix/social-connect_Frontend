@@ -4,7 +4,7 @@ import { Home, User, Plus, Shield, LogOut, Users } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import NotificationDropdown from '../notifications/NotificationDropdown';
 import Avatar from '../ui/Avatar';
-import Button from '../ui/Button';
+
 
 const Navigation: React.FC = () => {
   const { user, logout } = useAuth();

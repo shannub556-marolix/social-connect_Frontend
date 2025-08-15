@@ -6,13 +6,15 @@ interface AvatarProps {
   alt?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  onClick?: () => void;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ 
   src, 
   alt = 'User avatar', 
   size = 'md',
-  className = '' 
+  className = '',
+  onClick
 }) => {
   const sizeClasses = {
     sm: 'w-8 h-8',
@@ -26,7 +28,10 @@ const Avatar: React.FC<AvatarProps> = ({
 
   if (!src) {
     return (
-      <div className={`${baseClasses} ${sizeClass} ${className}`}>
+      <div 
+        className={`${baseClasses} ${sizeClass} ${className} ${onClick ? 'cursor-pointer' : ''}`}
+        onClick={onClick}
+      >
         <User className="text-gray-500" size={size === 'sm' ? 16 : size === 'md' ? 20 : size === 'lg' ? 24 : 32} />
       </div>
     );
@@ -36,7 +41,8 @@ const Avatar: React.FC<AvatarProps> = ({
     <img
       src={src}
       alt={alt}
-      className={`${baseClasses} ${sizeClass} ${className}`}
+      className={`${baseClasses} ${sizeClass} ${className} ${onClick ? 'cursor-pointer' : ''}`}
+      onClick={onClick}
       onError={(e) => {
         // Fallback to default avatar on error
         const target = e.target as HTMLImageElement;

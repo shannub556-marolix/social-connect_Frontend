@@ -28,6 +28,7 @@ export interface AdminPost {
   content: string;
   author_username: string;
   author_email: string;
+  author_avatar?: string;
   category?: string;
   image_url?: string;
   created_at: string;
@@ -38,7 +39,7 @@ export interface AdminPost {
 }
 
 export interface AdminPostDetail extends AdminPost {
-  // Additional fields if needed
+  author_avatar?: string;
 }
 
 export interface AdminStats {

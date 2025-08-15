@@ -4,9 +4,9 @@ import { postsApi } from '../api/postsApi';
 import { CreatePostRequest } from '../types/posts';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
-import Input from '../components/ui/Input';
+
 import Layout from '../components/layout/Layout';
-import { Image, X, Upload } from 'lucide-react';
+import { X, Upload } from 'lucide-react';
 
 const CreatePost: React.FC = () => {
   const navigate = useNavigate();

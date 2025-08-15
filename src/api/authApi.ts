@@ -4,7 +4,7 @@ import {
   RegisterRequest,
   AuthResponse,
   ChangePasswordRequest,
-  PasswordResetRequest,
+
   PasswordResetConfirmRequest,
   ApiResponse,
   User,

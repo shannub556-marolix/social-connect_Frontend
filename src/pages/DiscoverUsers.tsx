@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+
 import { useNotifications } from '../contexts/NotificationContext';
 import { authApi } from '../api/authApi';
 import { User } from '../types/auth';
@@ -12,7 +12,7 @@ import { ArrowLeft, Users, MapPin, Globe, Calendar, UserPlus } from 'lucide-reac
 
 const DiscoverUsers: React.FC = () => {
   const navigate = useNavigate();
-  const { user: currentUser } = useAuth();
+
   const { refreshCounts } = useNotifications();
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);

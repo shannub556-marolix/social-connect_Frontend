@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, MoreVertical, Eye, UserCheck, UserX, Shield, ShieldOff } from 'lucide-react';
+import { Search, Eye, UserCheck, UserX, Shield, ShieldOff } from 'lucide-react';
 import { AdminUser, AdminUserDetail, AdminUserUpdateRequest } from '../../types/admin';
 import { adminApi } from '../../api/adminApi';
 import Avatar from '../ui/Avatar';

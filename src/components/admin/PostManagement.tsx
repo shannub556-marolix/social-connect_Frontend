@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Trash2, Eye, FileText, Heart, MessageCircle } from 'lucide-react';
+import { Search, Trash2, Eye, Heart, MessageCircle } from 'lucide-react';
 import { AdminPost, AdminPostDetail } from '../../types/admin';
 import { adminApi } from '../../api/adminApi';
 import Avatar from '../ui/Avatar';
@@ -159,7 +159,7 @@ const PostManagement: React.FC<PostManagementProps> = ({ className = '' }) => {
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center space-x-2">
-                  <Avatar src={post.author_avatar} alt={post.author_username} size="sm" />
+                  <Avatar src={post.author_avatar || undefined} alt={post.author_username} size="sm" />
                   <div>
                     <p className="text-sm font-medium text-gray-900">{post.author_username}</p>
                     <p className="text-xs text-gray-500">{post.author_email}</p>

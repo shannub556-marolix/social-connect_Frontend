@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Button from '../../components/ui/Button';
 import Card from '../../components/ui/Card';
-import { CheckCircle, XCircle, Mail } from 'lucide-react';
+import { CheckCircle, XCircle } from 'lucide-react';
 
 const EmailVerification: React.FC = () => {
   const navigate = useNavigate();
