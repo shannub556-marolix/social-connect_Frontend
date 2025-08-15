@@ -378,11 +378,16 @@ const Profile: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    if (!dateString) return 'Unknown date';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return 'Unknown date';
+    }
   };
 
   if (isLoading) {
@@ -441,7 +446,7 @@ const Profile: React.FC = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 p-4">
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 p-2 sm:p-4">
         <div className="max-w-4xl mx-auto">
         {/* Error and Success Messages */}
         {error && (
@@ -457,7 +462,7 @@ const Profile: React.FC = () => {
         )}
         {/* Profile Header */}
         <Card className="mb-6">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+          <div className="flex flex-col items-center sm:items-start sm:flex-row gap-4 sm:gap-6">
             <Avatar 
               src={profile.avatar_url} 
               alt={profile.username}
@@ -465,15 +470,15 @@ const Profile: React.FC = () => {
               className="flex-shrink-0"
             />
             
-            <div className="flex-1">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <h1 className="text-3xl font-bold text-primary-600">
+            <div className="flex-1 w-full text-center sm:text-left">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-primary-600">
                       {profile.username}
                     </h1>
                     {!isOwnProfile && (
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1 justify-center sm:justify-start">
                         {profile.privacy_setting === 'public' && (
                           <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
                             Public Profile
@@ -496,11 +501,12 @@ const Profile: React.FC = () => {
                     <p className="text-secondary-600 mb-3">{profile.bio}</p>
                   )}
                   
-                  <div className="flex flex-wrap gap-4 text-sm text-secondary-500">
+                  <div className="flex flex-wrap gap-2 sm:gap-4 text-sm text-secondary-500 justify-center sm:justify-start">
                     {profile.location && (
                       <div className="flex items-center gap-1">
                         <MapPin size={16} />
-                        {profile.location}
+                        <span className="hidden sm:inline">{profile.location}</span>
+                        <span className="sm:hidden">{profile.location.length > 15 ? profile.location.substring(0, 15) + '...' : profile.location}</span>
                       </div>
                     )}
                     {profile.website && (
@@ -510,24 +516,27 @@ const Profile: React.FC = () => {
                           href={profile.website} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="hover:text-primary-600"
+                          className="hover:text-primary-600 hidden sm:inline"
                         >
                           {profile.website}
                         </a>
+                        <span className="sm:hidden">Website</span>
                       </div>
                     )}
                     <div className="flex items-center gap-1">
                       <Calendar size={16} />
-                      Joined {formatDate(profile.created_at || '')}
+                      <span className="hidden sm:inline">Joined {formatDate(profile.created_at || '')}</span>
+                      <span className="sm:hidden">Joined {formatDate(profile.created_at || '')}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 w-full sm:w-auto">
                   {!isOwnProfile && (
                     <Button
                       onClick={handleFollow}
                       variant={isFollowing ? 'secondary' : 'primary'}
+                      className="w-full sm:w-auto"
                     >
                       {isFollowing ? 'Unfollow' : 'Follow'}
                     </Button>
@@ -537,6 +546,7 @@ const Profile: React.FC = () => {
                     <Button
                       onClick={() => setIsEditing(!isEditing)}
                       variant="secondary"
+                      className="w-full sm:w-auto"
                     >
                       <Edit size={16} className="mr-2" />
                       Edit Profile
@@ -546,33 +556,33 @@ const Profile: React.FC = () => {
               </div>
 
               {/* Stats */}
-              <div className="flex gap-6 mt-6 pt-6 border-t border-gray-200">
+              <div className="flex justify-center sm:justify-start gap-4 sm:gap-6 mt-6 pt-6 border-t border-gray-200">
                 <button 
                   onClick={() => {
                     setShowFollowers(true);
                     fetchFollowers();
                   }}
-                  className="flex items-center gap-2 hover:bg-gray-50 p-2 rounded-lg transition-colors cursor-pointer"
+                  className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 hover:bg-gray-50 p-2 rounded-lg transition-colors cursor-pointer"
                 >
                   <Users size={20} className="text-primary-600" />
-                  <span className="font-semibold">{profile.followers_count}</span>
-                  <span className="text-secondary-500">Followers</span>
+                  <span className="font-semibold text-sm sm:text-base">{profile.followers_count}</span>
+                  <span className="text-secondary-500 text-xs sm:text-sm">Followers</span>
                 </button>
                 <button 
                   onClick={() => {
                     setShowFollowing(true);
                     fetchFollowing();
                   }}
-                  className="flex items-center gap-2 hover:bg-gray-50 p-2 rounded-lg transition-colors cursor-pointer"
+                  className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 hover:bg-gray-50 p-2 rounded-lg transition-colors cursor-pointer"
                 >
                   <Users size={20} className="text-primary-600" />
-                  <span className="font-semibold">{profile.following_count}</span>
-                  <span className="text-secondary-500">Following</span>
+                  <span className="font-semibold text-sm sm:text-base">{profile.following_count}</span>
+                  <span className="text-secondary-500 text-xs sm:text-sm">Following</span>
                 </button>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
                   <FileText size={20} className="text-primary-600" />
-                  <span className="font-semibold">{profile.posts_count}</span>
-                  <span className="text-secondary-500">Posts</span>
+                  <span className="font-semibold text-sm sm:text-base">{profile.posts_count}</span>
+                  <span className="text-secondary-500 text-xs sm:text-sm">Posts</span>
                 </div>
               </div>
             </div>
@@ -589,7 +599,7 @@ const Profile: React.FC = () => {
                 <label className="block text-sm font-medium text-secondary-700 mb-3">
                   Profile Photo
                 </label>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
                   <div className="relative">
                     <Avatar 
                       src={avatarPreview || profile.avatar_url} 
@@ -608,18 +618,19 @@ const Profile: React.FC = () => {
                     </label>
                   </div>
                   
-                  <div className="flex-1">
+                  <div className="flex-1 w-full">
                     <div className="space-y-2">
-                      <p className="text-sm text-secondary-600">
+                      <p className="text-sm text-secondary-600 text-center sm:text-left">
                         Upload a new profile photo. Supported formats: JPEG, PNG. Max size: 2MB.
                       </p>
                       
                       {avatarFile && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2">
                           <Button
                             onClick={handleAvatarUpload}
                             disabled={isUploadingAvatar}
                             size="sm"
+                            className="w-full sm:w-auto"
                           >
                             {isUploadingAvatar ? 'Uploading...' : 'Upload Photo'}
                           </Button>
@@ -630,6 +641,7 @@ const Profile: React.FC = () => {
                               setAvatarFile(null);
                               setAvatarPreview(null);
                             }}
+                            className="w-full sm:w-auto"
                           >
                             Cancel
                           </Button>
@@ -694,13 +706,14 @@ const Profile: React.FC = () => {
                 </select>
               </div>
               
-              <div className="flex gap-3">
-                <Button onClick={handleSaveProfile}>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button onClick={handleSaveProfile} className="w-full sm:w-auto">
                   Save Changes
                 </Button>
                 <Button 
                   variant="secondary" 
                   onClick={() => setIsEditing(false)}
+                  className="w-full sm:w-auto"
                 >
                   Cancel
                 </Button>
@@ -736,13 +749,13 @@ const Profile: React.FC = () => {
                       alt={post.author.username}
                       size="md"
                     />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold text-primary-600">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-1">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="font-semibold text-primary-600 truncate">
                             {post.author.username}
                           </span>
-                          <Badge variant="secondary" size="sm">
+                          <Badge variant="secondary" size="sm" className="flex-shrink-0">
                             {post.category}
                           </Badge>
                         </div>
@@ -757,7 +770,7 @@ const Profile: React.FC = () => {
                               className="text-blue-600 border-blue-300 hover:bg-blue-50"
                             >
                               <Edit size={14} className="mr-1" />
-                              Edit
+                              <span className="hidden sm:inline">Edit</span>
                             </Button>
                             <div className="relative group">
                               <button className="p-1 rounded-full hover:bg-gray-100 transition-colors">
@@ -821,15 +834,15 @@ const Profile: React.FC = () => {
                         )}
                         
                         {/* Image Upload Controls */}
-                        <div className="flex items-center gap-3">
-                          <label className="cursor-pointer">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                          <label className="cursor-pointer w-full sm:w-auto">
                             <input
                               type="file"
                               accept="image/*"
                               onChange={handlePostImageChange}
                               className="hidden"
                             />
-                            <div className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            <div className="flex items-center justify-center sm:justify-start gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto">
                               <Camera size={16} className="text-gray-500" />
                               <span className="text-sm text-gray-700">
                                 {editPostImagePreview ? 'Change Image' : 'Add Image'}
@@ -845,7 +858,7 @@ const Profile: React.FC = () => {
                                 setEditPostImage(null);
                                 setEditPostImagePreview(null);
                               }}
-                              className="text-red-600 hover:bg-red-50"
+                              className="text-red-600 hover:bg-red-50 w-full sm:w-auto"
                             >
                               Remove Image
                             </Button>
@@ -857,11 +870,12 @@ const Profile: React.FC = () => {
                         </p>
                       </div>
                       
-                      <div className="flex gap-2 mt-4">
+                      <div className="flex flex-col sm:flex-row gap-2 mt-4">
                         <Button
                           onClick={handleSavePostEdit}
                           disabled={isSaving || !editPostForm.content.trim()}
                           size="sm"
+                          className="w-full sm:w-auto"
                         >
                           {isSaving ? 'Saving...' : 'Save'}
                         </Button>
@@ -874,6 +888,7 @@ const Profile: React.FC = () => {
                             setEditPostImagePreview(null);
                           }}
                           size="sm"
+                          className="w-full sm:w-auto"
                         >
                           Cancel
                         </Button>
@@ -911,8 +926,8 @@ const Profile: React.FC = () => {
 
       {/* Followers Modal */}
       {showFollowers && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-2 sm:mx-4 max-h-[90vh] sm:max-h-[80vh] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
                 Followers ({profile?.followers_count})
@@ -943,18 +958,19 @@ const Profile: React.FC = () => {
                            setShowFollowers(false);
                            navigate(`/profile/${follow.follower.id}`);
                          }}>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
                         <Avatar 
                           src={follow.follower.avatar_url} 
                           alt={follow.follower.username}
                           size="md"
+                          className="flex-shrink-0"
                         />
-                        <div>
-                          <p className="font-semibold text-gray-900 hover:text-primary-600">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold text-gray-900 hover:text-primary-600 truncate">
                             {follow.follower.username}
                           </p>
                           {follow.follower.bio && (
-                            <p className="text-sm text-gray-600 truncate max-w-[200px]">{follow.follower.bio}</p>
+                            <p className="text-sm text-gray-600 truncate max-w-[150px] sm:max-w-[200px]">{follow.follower.bio}</p>
                           )}
                         </div>
                       </div>
@@ -971,8 +987,8 @@ const Profile: React.FC = () => {
 
       {/* Following Modal */}
       {showFollowing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-2 sm:mx-4 max-h-[90vh] sm:max-h-[80vh] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
                 Following ({profile?.following_count})
@@ -999,9 +1015,9 @@ const Profile: React.FC = () => {
                 <div className="space-y-3">
                   {following.map((follow) => (
                     <div key={follow.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
                         <div 
-                          className="cursor-pointer"
+                          className="cursor-pointer flex-shrink-0"
                           onClick={() => {
                             setShowFollowing(false);
                             navigate(`/profile/${follow.following.id}`);
@@ -1013,9 +1029,9 @@ const Profile: React.FC = () => {
                             size="md"
                           />
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p 
-                            className="font-semibold text-gray-900 hover:text-primary-600 cursor-pointer"
+                            className="font-semibold text-gray-900 hover:text-primary-600 cursor-pointer truncate"
                             onClick={() => {
                               setShowFollowing(false);
                               navigate(`/profile/${follow.following.id}`);
@@ -1024,7 +1040,7 @@ const Profile: React.FC = () => {
                             {follow.following.username}
                           </p>
                           {follow.following.bio && (
-                            <p className="text-sm text-gray-600 truncate max-w-[200px]">{follow.following.bio}</p>
+                            <p className="text-sm text-gray-600 truncate max-w-[150px] sm:max-w-[200px]">{follow.following.bio}</p>
                           )}
                         </div>
                       </div>
@@ -1034,9 +1050,10 @@ const Profile: React.FC = () => {
                           onClick={() => handleFollowFromList(follow.following.id, true)}
                           variant="secondary"
                           size="sm"
+                          className="flex-shrink-0"
                         >
                           <UserMinus size={16} className="mr-1" />
-                          Unfollow
+                          <span className="hidden sm:inline">Unfollow</span>
                         </Button>
                       )}
                     </div>
@@ -1050,19 +1067,20 @@ const Profile: React.FC = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-2 sm:mx-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Delete Post
             </h3>
             <p className="text-gray-600 mb-6">
               Are you sure you want to delete this post? This action cannot be undone.
             </p>
-            <div className="flex justify-end gap-3">
+            <div className="flex flex-col sm:flex-row justify-end gap-3">
               <Button
                 variant="secondary"
                 onClick={() => setShowDeleteConfirm(null)}
                 disabled={isDeleting}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>
@@ -1070,7 +1088,7 @@ const Profile: React.FC = () => {
                 variant="outline"
                 onClick={() => handleDeletePost(showDeleteConfirm)}
                 disabled={isDeleting}
-                className="text-red-600 border-red-300 hover:bg-red-50"
+                className="text-red-600 border-red-300 hover:bg-red-50 w-full sm:w-auto"
               >
                 {isDeleting ? 'Deleting...' : 'Delete'}
               </Button>
