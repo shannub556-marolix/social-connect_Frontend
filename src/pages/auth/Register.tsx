@@ -45,6 +45,11 @@ const Register: React.FC = () => {
       setError('Password must contain at least one uppercase letter, one lowercase letter, and one number');
       return false;
     }
+    // Validate website URL format
+    if (formData.website && !formData.website.match(/^https?:\/\/.+/)) {
+      setError('Website URL must start with http:// or https://');
+      return false;
+    }
     return true;
   };
 
@@ -60,7 +65,9 @@ const Register: React.FC = () => {
     }
 
     try {
-      await register(formData);
+      // Remove password2 from the data sent to backend
+      const { password2, ...registrationData } = formData;
+      await register(registrationData);
       setSuccess('Registration successful! Please check your email to verify your account.');
       setTimeout(() => {
         navigate('/login');
@@ -180,6 +187,7 @@ const Register: React.FC = () => {
                 onChange={handleInputChange}
                 leftIcon={<Globe size={20} />}
                 placeholder="https://yourwebsite.com"
+                helperText="Must start with http:// or https://"
               />
 
               {/* Location */}

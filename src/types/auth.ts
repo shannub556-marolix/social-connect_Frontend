@@ -12,7 +12,7 @@ export interface User {
   followers_count: number;
   following_count: number;
   posts_count: number;
-  created_at?: string;
+  date_joined?: string;
   updated_at?: string;
   is_following?: boolean;
 }
@@ -27,7 +27,6 @@ export interface RegisterRequest {
   username: string;
   email: string;
   password: string;
-  password2: string;
   role?: 'user' | 'admin';
   bio?: string;
   avatar_url?: string;

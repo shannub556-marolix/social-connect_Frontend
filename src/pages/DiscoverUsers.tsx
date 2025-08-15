@@ -214,7 +214,7 @@ const DiscoverUsers: React.FC = () => {
                     )}
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <Calendar size={14} />
-                      <span>Joined {formatDate(user.created_at || '')}</span>
+                      <span>Joined {formatDate(user.date_joined || '')}</span>
                     </div>
                   </div>
 

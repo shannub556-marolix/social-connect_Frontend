@@ -278,10 +278,17 @@ const Profile: React.FC = () => {
   };
 
   const handleSaveProfile = async () => {
+    // Validate website URL format
+    if (editForm.website && !editForm.website.match(/^https?:\/\/.+/)) {
+      setError('Website URL must start with http:// or https://');
+      return;
+    }
+
     try {
       const updatedProfile = await authApi.updateProfile(editForm);
       setProfile(updatedProfile);
       setIsEditing(false);
+      setError(''); // Clear any previous errors
     } catch (err: any) {
       setError(err.message || 'Failed to update profile');
     }
@@ -525,8 +532,8 @@ const Profile: React.FC = () => {
                     )}
                     <div className="flex items-center gap-1">
                       <Calendar size={16} />
-                      <span className="hidden sm:inline">Joined {formatDate(profile.created_at || '')}</span>
-                      <span className="sm:hidden">Joined {formatDate(profile.created_at || '')}</span>
+                      <span className="hidden sm:inline">Joined {formatDate(profile.date_joined || '')}</span>
+                      <span className="sm:hidden">Joined {formatDate(profile.date_joined || '')}</span>
                     </div>
                   </div>
                 </div>
@@ -676,6 +683,7 @@ const Profile: React.FC = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   placeholder="https://example.com"
                 />
+                <p className="mt-1 text-sm text-gray-500">Must start with http:// or https://</p>
               </div>
               
               <div>
