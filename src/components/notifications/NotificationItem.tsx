@@ -35,12 +35,12 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onMar
 
   return (
     <div 
-      className={`p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer ${
+      className={`p-3 sm:p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer ${
         !notification.is_read ? 'bg-blue-50' : ''
       }`}
       onClick={() => !notification.is_read && onMarkAsRead(notification.id)}
     >
-      <div className="flex items-start space-x-3">
+      <div className="flex items-start space-x-2 sm:space-x-3">
         <div className="flex-shrink-0">
           <Avatar 
             src={notification.sender_avatar} 
@@ -50,21 +50,21 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, onMar
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2">
             {getNotificationIcon()}
-            <p className="text-sm font-medium text-gray-900">
+            <p className="text-xs sm:text-sm font-medium text-gray-900 truncate">
               {notification.title}
             </p>
             {!notification.is_read && (
-              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
             )}
           </div>
           
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
             {notification.message}
           </p>
           
-          <p className="text-xs text-gray-400 mt-2">
+          <p className="text-xs text-gray-400 mt-1 sm:mt-2">
             {formatTime(notification.created_at)}
           </p>
         </div>
